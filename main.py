@@ -43,7 +43,7 @@ def pipeline(path: str):
         "## Master's Perspective",
         master_output,
     ])
-    output_path = Path("outputs/summary1.md")
+    output_path = Path("outputs/summary2.md")
     output_path.parent.mkdir(exist_ok=True, parents=True)
     output_path.write_text(summary_md, encoding="utf-8")
 
