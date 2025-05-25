@@ -1,5 +1,8 @@
 # AI Research Assistant 之 read for me 
 
+![讀論文神器](./agent/anime.gif)
+
+
 ### activation steps
 
 0. have a nice python environment
