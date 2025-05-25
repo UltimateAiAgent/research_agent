@@ -1,7 +1,8 @@
 # AI Research Assistant 之 read for me 
 
-![讀論文神器](./agent/anime.gif)
-
+<p align="center">
+  <img src="./agent/anime.gif" alt="讀論文神器" width="400"/>
+</p>
 
 ### activation steps
 
