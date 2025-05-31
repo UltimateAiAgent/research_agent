@@ -1,4 +1,4 @@
-# AI Research Assistant 之 read for me 
+# AI Research Assistant 之 READ IT FOR ME😠
 
 <p align="center">
   <img src="./agent/anime.gif" alt="讀論文神器" width="400"/>
@@ -13,4 +13,5 @@
 
 PS: Only PDF file is supported
 PS: 可以替換的模型 -> gpt-turbo-3.5, gpt-4o, gpt-4o-mini
+
 
