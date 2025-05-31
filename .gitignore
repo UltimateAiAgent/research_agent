@@ -1,4 +1,5 @@
 .env
 agent/__pycache__
 output
-doc/RL_ONE.pdf
+doc
+outputs
