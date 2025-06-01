@@ -7,15 +7,13 @@ from agent.llm import OpenAILLM
 from agent.architect import architect_agent
 import random
 import re
-import base64
-import io
-import requests
-from PIL import Image
 
 # ---------- Streamlit UI ----------
 st.set_page_config(page_title="Read It For Me! ", layout="wide")
 if "show_characters" not in st.session_state:
     st.session_state["show_characters"] = False
+if "murloc_unlocked" not in st.session_state:
+    st.session_state["murloc_unlocked"] = False
 st.title("📚 Read It For Me!")
 st.markdown("這是一個有著多位成員的魔法實驗室（半獸人、可怕的指導老師、魚人學弟、珍娜．普勞德摩爾） ✨")
 
@@ -143,6 +141,14 @@ if uploaded_file is not None:
     if 'architect_output' not in st.session_state:
         st.session_state.architect_output = ""
 
+    # ---------- 隱藏角色解鎖 ----------
+    with st.expander("🌊 你聽到遠方傳來奇怪的咕嚕聲 … 想要查看嗎？"):
+        if not st.session_state["murloc_unlocked"]:
+            if st.button("在黑暗中呼喊『Mrglgrlgrl!』🔓  (點我解鎖神祕角色)"):
+                st.session_state["murloc_unlocked"] = True
+                st.success("魚人學弟從水裡跳了出來！🫧")
+        else:
+            st.info("魚人學弟已加入隊伍 🐟")
 
     # ---------- 角色圖示與觸發對話 ----------
     # 新增大按鈕
@@ -162,13 +168,6 @@ if uploaded_file is not None:
             "state_key": "undead_output",
             "function": lambda _, text, user_instruction: professor_agent().critique(student_output=text, user_query=user_instruction),
         },
-        "murloc": {
-            "name": "魚人學弟",
-            "image": "doc/就是隻魚人.png",
-            "state_key": "murloc_output",
-            # If murloc uses the same function, update it as well:
-            # "function": lambda llm, text, user_instruction: student_agent(llm).summarize_and_questions(paper_text=text, user_query=user_instruction),
-        },
         "jaina": {
             "name": "🧙‍♀️ 珍娜法師學姊",
             "image": "doc/珍娜.png",
@@ -182,6 +181,12 @@ if uploaded_file is not None:
             "function": lambda _, text, __: architect_agent().generate_diagram(text),
         }
     }
+    if st.session_state["murloc_unlocked"]:
+        character_map["murloc"] = {
+            "name": "魚人學弟",
+            "image": "doc/就是隻魚人.png",
+            "state_key": "murloc_output",
+        }
 
     for key in character_map:
         if character_map[key]["state_key"] not in st.session_state:
@@ -209,8 +214,9 @@ if uploaded_file is not None:
                                 continue
                             response = char["function"](llm, prev, user_instruction)
                         elif key == "murloc":
+                            # 固定台詞與音效
                             st.session_state[char["state_key"]] = "@#/!@$%^&%^*%$&tfsgwe"
-                            st.subheader(f"@#/!@$%^&%^*%$&tfsgwe")
+                            st.subheader("@#/!@$%^&%^*%$&tfsgwe！")
                             selected_audio = random.choice(murloc_audio_files)
                             st.audio(selected_audio)
                             continue
@@ -241,16 +247,14 @@ if uploaded_file is not None:
             output = st.session_state.get(char["state_key"], "")
             if output:
                 if char['name'] == "魚人學弟":
-                    st.subheader(f"魚人學弟的回應 (請聆聽音效)")
+                    if st.session_state.get("murloc_unlocked", False):
+                        st.subheader("魚人學弟的回應 (請聆聽音效)")
                 elif char['name'] == "瘋狂畫家":
                     st.markdown(f"### 🎨 瘋狂畫家的作畫")
                     st.markdown("```mermaid\n" + output + "\n```")
                 else:
                     st.markdown(f"**{char['name']} 的回應：**")
                     st.markdown(output)
-
-    # ---------- 統一回覆區 ----------
-
    
 else:
-    st.info("請先上傳 PDF 並描述你的研究目的，我們的 AI 小隊將啟動共讀！")
+    st.info("請先上傳 PDF 並描述你的目的，Chaotic 小隊會和你一起想方法～")
