@@ -1,4 +1,4 @@
-# AI Research Assistant 之 READ IT FOR ME😠
+# AI Research Assistant 之 READ IT FOR ME
 
 <p align="center">
   <img src="./doc/anime.gif" alt="讀論文神器" width="400"/>
