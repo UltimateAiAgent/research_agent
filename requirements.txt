@@ -1,2 +1,7 @@
 openai 
 pymupdf
+streamlit
+fitz
+langdetect
+googletrans
+pytesseract
